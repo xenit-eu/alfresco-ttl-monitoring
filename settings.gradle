@@ -1,0 +1,3 @@
+rootProject.name = 'alfresco-ttl-monitoring'
+
+include 'docker-alfresco'
