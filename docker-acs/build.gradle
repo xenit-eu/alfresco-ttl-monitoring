@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     baseAlfrescoWar 'org.alfresco:content-services-community:6.2.0-ga@war'
-    alfrescoAmp "eu.xenit.alfred.telemetry:alfred-telemetry-platform:0.5.1@amp"
+    alfrescoAmp "eu.xenit.alfred.telemetry:alfred-telemetry-platform:0.5.2@amp"
     alfrescoSM "io.micrometer:micrometer-registry-prometheus:1.0.6"
 }
 
