@@ -5,5 +5,6 @@ plugins {
 
 dockerCompose {
 //    fromProject project(':docker-acs')
-    dockerComposeWorkingDirectory = 'docker-compose/'
+    dockerComposeWorkingDirectory = "$projectDir/docker-compose"
+    useComposeFiles = ["$dockerComposeWorkingDirectory/docker-compose.yml", "$dockerComposeWorkingDirectory/docker-compose-solr.yml"];
 }

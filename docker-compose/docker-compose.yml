@@ -25,6 +25,10 @@ services:
       - GLOBAL_alfred.telemetry.binder.care4alf.enabled=true
       # Enable Alfresco cache metrics:
       - GLOBAL_alfred.telemetry.binder.cache.enabled=true
+      # Disable transformers
+      - GLOBAL_local.transform.service.enabled=false
+      - GLOBAL_legacy.transform.service.enabled=false
+      - GLOBAL_jodconverter.enabled=false
 
   #  share:
   #   image: docker.io/xenit/alfresco-share-community:5.2.f
