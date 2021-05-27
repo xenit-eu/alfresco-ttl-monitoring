@@ -1,0 +1,103 @@
+groups:
+- name: Solr specific
+  rules:
+  - alert: jvm-memory-heap-used
+    expr: sum(avg_over_time(jvm_memory_used_bytes{job="solr",area="heap"}[5m]))by(instance,customer,service,environment,stack)*100/sum(avg_over_time(jvm_memory_max_bytes{job="solr",area="heap"}[5m]))by(instance,customer,service,environment,stack) > 95    
+    for: 5m
+    labels:
+      severity: 'critical'
+      central: 'true'
+    annotations:
+      description: '{{ $labels.instance }} has more than 95% of heap used for last 5 minutes'
+      value: '{{ $value }}'
+
+  - alert: solr-searcher-warmup-time
+    expr: solr_alfresco_warmupTime > 60000
+    for: 5m
+    labels:
+      severity: 'warning'
+      central: 'true'      
+    annotations:
+      description: 'Warmup time for solr searcher on {{ $labels.instance }} takes more than 1 minute'
+      value: '{{ $value }}'
+
+  - alert: solr-afts-requests-per-second
+    expr: solr_alfresco_5minRateReqsPerSecond{job="solr",type="/afts"}>5
+    for: 5m
+    labels:
+      severity: 'warning'
+      central: 'true'      
+    annotations:
+      description: 'Solr on {{ $labels.instance }} consistently received more than 5 afts requests/sec in the last 5 minutes'
+      value: '{{ $value }}'
+
+  - alert: solr-afts-request-time
+    expr: solr_alfresco_95thPcRequestTime{job="solr",type="/afts"}>3000
+    for: 5m
+    labels:
+      severity: 'warning'
+      central: 'true'      
+    annotations:
+      description: 'Majority of afts requests on solr on {{ $labels.instance }} took more than 3 sec in the last 5 minutes'
+      value: '{{ $value }}'
+
+  - alert: solr-cmis-requests-per-second
+    expr: solr_alfresco_5minRateReqsPerSecond{job="solr",type="/cmis"}>5
+    for: 5m
+    labels:
+      severity: 'warning'
+      central: 'true'      
+    annotations:
+      description: 'Solr on {{ $labels.instance }} consistently received more than 5 cmis requests/sec in the last 5 minutes'
+      value: '{{ $value }}'
+
+  - alert: solr-cmis-request-time
+    expr: solr_alfresco_95thPcRequestTime{job="solr",type="/cmis"}>3000
+    for: 5m
+    labels:
+      severity: 'warning'
+      central: 'true'      
+    annotations:
+      description: 'Majority of cmis requests on solr on {{ $labels.instance }} took more than 3 sec in the last 5 minutes'
+      value: '{{ $value }}'
+
+  - alert: solr-indexing-errors
+    expr: alfresco_nodes{state="Error"}>0
+    for: 5m
+    labels:
+      severity: 'error'
+      central: 'true'      
+    annotations:
+      description: 'There are error nodes in the index'
+      value: '{{ $value }}'
+
+  - alert: solr-transactions-lag
+    expr: alfresco_transactions_nodes_lag{core="alfresco"}>1800
+    for: 5m
+    labels:
+      severity: 'warning'
+      central: 'true'      
+    annotations:
+      description: 'There is a transactions lag higher than 30 minutes'
+      value: '{{ $value }}'
+
+  - alert: solr-acls-lag
+    expr: alfresco_transactions_acls_lag{core="alfresco"}>1800
+    for: 5m
+    labels:
+      severity: 'warning'
+      central: 'true'      
+    annotations:
+      description: 'There is a changesets lag higher than 30 minutes'
+      value: '{{ $value }}'
+
+  - alert: solr-fts-to-update
+    expr: alfresco_fts{state=~"Dirty|ToBeUpdated"}>0
+    for: 5m
+    labels:
+      autocloseable: 'true'
+      severity: 'warning'
+      central: 'true'    
+    annotations:
+      description: 'There are nodes whose content needs to be indexed'
+      value: '{{ $value }}'
