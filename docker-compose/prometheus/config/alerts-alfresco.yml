@@ -1,0 +1,125 @@
+groups:
+- name: Alfresco specific 
+  rules:
+  - alert: jvm-threads-blocked
+    expr: jvm_threads_blocked{application="c4a"} > 100
+    for: 5m
+    labels:
+      severity: 'error'
+      central: 'true'
+    annotations:
+      description: '{{ $labels.instance }} has more than 100 threads blocked'
+      value: '{{ $value }}'      
+
+  - alert: jvm-memory-heap-used
+    expr: sum(avg_over_time(jvm_memory_used_bytes{application="alfresco",area="heap"}[1m]))by(instance,customer,service,environment,stack)*100/sum(avg_over_time(jvm_memory_max_bytes{application="alfresco",area="heap"}[1m]))by(instance,customer,service,environment,stack) > 95    
+    for: 5m
+    labels:
+      severity: 'critical'
+      central: 'true'      
+    annotations:
+      description: '{{ $labels.instance }} has more than 95% of heap used for last 5 minutes'
+      value: '{{ $value }}'
+    
+  # Database
+  - alert: jdbc-connections
+    expr: (sum by (instance,customer,environment,env,service,stack)(jdbc_connections_count{status="active", application="alfresco"})) / (sum by (instance,customer,environment,env,service,stack)(jdbc_connections_max{application="alfresco"}))*100 > 50
+    for: 5m    
+    labels:
+      severity: 'warning'
+      central: 'true'      
+    annotations:
+      description: '{{ $labels.instance }} has more than 50% of db connections used'
+      value: '{{ $value }}'
+
+  - alert: jdbc-connections
+    expr: (sum by (instance,customer,environment,env,service,stack)(jdbc_connections_count{status="active", application="alfresco"})) / (sum by (instance,customer,environment,env,service,stack)(jdbc_connections_max{application="alfresco"}))*100 > 80
+    for: 5m    
+    labels:
+      severity: 'error'
+      central: 'true'      
+    annotations:
+      description: '{{ $labels.instance }} has more than 80% of db connections used'
+      value: '{{ $value }}'
+
+  - alert: jdbc-connections
+    expr: (sum by (instance,customer,environment,env,service,stack)(jdbc_connections_count{status="active", application="alfresco"})) / (sum by (instance,customer,environment,env,service,stack)(jdbc_connections_max{application="alfresco"}))*100 > 90
+    for: 5m    
+    labels:
+      severity: 'critical'
+      central: 'true'      
+    annotations:
+      description: '{{ $labels.instance }} has more than 90% of db connections used'
+      value: '{{ $value }}'
+      
+  - alert: db-healthy
+    expr: db_healthy{application="c4a"} < 1
+    for: 5m    
+    labels:
+      severity: 'critical'
+      central: 'true'      
+    annotations:
+      description: '{{ $labels.instance }} has db unhealthy'
+      value: '{{ $value }}'
+
+  - alert: jvm-gc-pause
+    expr: rate(jvm_gc_pause_seconds_sum{application="alfresco"}[1m]) / rate(jvm_gc_pause_seconds_count{application="alfresco"}[1m])>0.05
+    for: 5m
+    labels:
+      severity: 'critical'
+      central: 'true'      
+    annotations:
+      description: 'GCs on {{ $labels.instance }} of job {{ $labels.job }} are happening too often and are taking too long'
+      value: '{{ $value }}'
+
+  - alert: license-warning
+    expr: license_days{status="remaining"}<60
+    for: 5m
+    labels:
+      severity: 'warning'
+      central: 'true'      
+    annotations:
+      description: 'License on {{ $labels.instance }} will expire in less than 60 days'
+      value: '{{ $value }}'
+
+  - alert: license-error
+    expr: license_days{status="remaining"}<30
+    for: 5m
+    labels:
+      severity: 'error'
+      central: 'true'      
+    annotations:
+      description: 'License on {{ $labels.instance }} will expire in less than 30 days'
+      value: '{{ $value }}'
+
+  - alert: license-critical
+    expr: license_days{status="remaining"}<10
+    for: 5m
+    labels:
+      severity: 'critical'
+      central: 'true'      
+    annotations:
+      description: 'License on {{ $labels.instance }} will expire in less than 10 days'
+      value: '{{ $value }}'
+
+  - alert: license-users-warning
+    expr: (sum by (instance,customer,environment,env,service,stack) (license_users{status="current"})/ sum by (instance,customer,environment,env,service,stack) (license_users_max) > 0.8) and (sum by (instance,customer,environment,env,service,stack) (license_users_max)>0)
+    for: 5m
+    labels:
+      severity: 'warning'
+      central: 'true'      
+    annotations:
+      description: 'Alfresco on {{ $labels.instance }} has more than 80% of the users allowed by the license'
+      value: '{{ $value }}'
+
+  - alert: license-users-critical
+    expr: (sum by (instance,customer,environment,env,service,stack) (license_users{status="current"})/ sum by (instance,customer,environment,env,service,stack) (license_users_max) > 0.95) and (sum by (instance,customer,environment,env,service,stack) (license_users_max)>0)
+    for: 5m
+    labels:
+      severity: 'critical'
+      central: 'true'      
+    annotations:
+      description: 'Alfresco on {{ $labels.instance }} has more than 95% of the users allowed by the license'
+      value: '{{ $value }}'
+
+
