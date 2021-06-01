@@ -4,6 +4,7 @@ services:
   alfresco:
     environment:
       - INDEX=solr6
+      - SOLR_SSL=none
   solr:
      image: hub.xenit.eu/public/alfresco-solr6-xenit:2.0.1
      environment:
