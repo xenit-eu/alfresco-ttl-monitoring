@@ -122,4 +122,22 @@ groups:
       description: 'Alfresco on {{ $labels.instance }} has more than 95% of the users allowed by the license'
       value: '{{ $value }}'
 
+  - alert: health-processor-content-validation-failures
+    expr: health_processor_reports{status="UNHEALTHY", plugin="ContentValidationHealthProcessorPlugin"} > 0
+    labels:
+      severity: 'error'
+      central: 'true'
+    annotations:
+      description: '{{ $labels.instance }} has nodes for which the content is not available in the Content Store'
+      value: '{{ $value }}'
+
+  - alert: health-processor-failures
+    expr: health_processor_reports{status="UNHEALTHY"} > 0
+    labels:
+      severity: 'error'
+      central: 'true'
+    annotations:
+      description: '{{ $labels.instance }} has UNHEALTHY nodes according to the Alfresco Health Processor'
+      value: '{{ $value }}'
+
 

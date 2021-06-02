@@ -189,6 +189,7 @@
       }
     }
   ],
+  "refresh": "5s",
   "schemaVersion": 16,
   "style": "dark",
   "tags": [],
@@ -196,7 +197,7 @@
     "list": []
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -227,5 +228,5 @@
   "timezone": "",
   "title": "TTL - Alfresco Health Processor",
   "uid": "nlcmRG6Gz",
-  "version": 2
+  "version": 1
 }
