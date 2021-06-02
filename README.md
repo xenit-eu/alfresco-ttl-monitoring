@@ -32,6 +32,9 @@ Once started, following services are available and have one or more ports expose
 
 ## Links
 
+* [Alfred Telemetry](https://github.com/xenit-eu/alfred-telemetry)
+  * [Platform Documentation](https://github.com/xenit-eu/alfred-telemetry/tree/master/alfred-telemetry-platform)
+  * [Solr Documentation](https://github.com/xenit-eu/alfred-telemetry/tree/master/alfred-telemetry-solr)
 * [Micrometer.io](https://micrometer.io/)
   * [Documentation](https://micrometer.io/docs/)
 * [Alfresco Health Processor](https://github.com/xenit-eu/alfresco-health-processor)
