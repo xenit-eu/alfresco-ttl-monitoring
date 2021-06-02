@@ -1,10 +1,36 @@
 plugins {
-    id "eu.xenit.docker-compose" version "5.3.0"
-    id "eu.xenit.docker-compose.auto" version "5.3.0"
+    id 'base'
+    id 'eu.xenit.docker-alfresco' version "5.3.0"
+    id 'eu.xenit.docker-compose' version "5.3.0"
+    id 'eu.xenit.docker-compose.auto' version "5.3.0"
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://artifacts.alfresco.com/nexus/content/groups/public/"
+    }
+}
+
+dependencies {
+    baseAlfrescoWar 'org.alfresco:content-services-community:6.2.0-ga@war'
+    alfrescoAmp "eu.xenit.alfred.telemetry:alfred-telemetry-platform:0.5.2@amp"
+    alfrescoSM "io.micrometer:micrometer-registry-prometheus:1.0.6"
+
+    alfrescoAmp "eu.xenit.alfresco:alfresco-health-processor-platform:0.3.0@amp"
+    alfrescoSM 'org.orderofthebee.support-tools:support-tools-repo:1.1.0.0'
 }
 
 dockerCompose {
-//    fromProject project(':docker-acs')
     dockerComposeWorkingDirectory = "$projectDir/docker-compose"
-    useComposeFiles = ["$dockerComposeWorkingDirectory/docker-compose.yml", "$dockerComposeWorkingDirectory/docker-compose-solr.yml",  "$dockerComposeWorkingDirectory/docker-compose-monitoring.yml"];
+    useComposeFiles = [
+            "$dockerComposeWorkingDirectory/docker-compose.yml",
+            "$dockerComposeWorkingDirectory/docker-compose-solr.yml",
+            "$dockerComposeWorkingDirectory/docker-compose-monitoring.yml"
+    ];
+}
+
+dockerAlfresco {
+    baseImage = 'docker.io/xenit/alfresco-repository-community:6.2.0-ga'
+    leanImage = true
 }
