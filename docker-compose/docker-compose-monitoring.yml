@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   prometheus:
-    image: prom/prometheus:v2.1.0
+    image: docker.io/prom/prometheus:v2.27.1
     volumes:
       - ./prometheus/config/:/etc/prometheus/
       - prometheus_data:/prometheus
@@ -15,12 +15,11 @@ services:
       - 9090:9090
 
   grafana:
-    image: hub.xenit.eu/public/grafana:5
+    image: docker.io/grafana/grafana:7.5.7
     volumes:
-    - ./grafana:/etc/grafana:z
-    - ./prometheus/grafana/prometheus-datasources.yml:/etc/grafana-provisioning/datasources/prometheus-datasources.yml
-    - ./prometheus/grafana/prometheus-dashboards.yml:/etc/grafana-provisioning/dashboards/prometheus-dashboards.yml
-    - ./prometheus/grafana/dashboards:/etc/grafana-provisioning/dashboards/prometheus
+    - ./prometheus/grafana/prometheus-datasources.yml:/etc/grafana/provisioning/datasources/prometheus-datasources.yml:ro
+    - ./prometheus/grafana/prometheus-dashboards.yml:/etc/grafana/provisioning/dashboards/prometheus-dashboards.yml:ro
+    - ./prometheus/grafana/dashboards:/etc/grafana/provisioning/dashboards/prometheus:ro
     ports:
     - 3000:3000  
 
