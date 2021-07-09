@@ -1,5 +1,5 @@
 plugins {
-    id 'base'
+    id 'java'
     id 'eu.xenit.docker-alfresco' version "5.3.0"
     id 'eu.xenit.docker-compose' version "5.3.0"
     id 'eu.xenit.docker-compose.auto' version "5.3.0"
@@ -13,11 +13,13 @@ repositories {
 }
 
 dependencies {
-    baseAlfrescoWar 'org.alfresco:content-services-community:6.2.0-ga@war'
-    alfrescoAmp "eu.xenit.alfred.telemetry:alfred-telemetry-platform:0.5.2@amp"
+    baseAlfrescoWar platform('org.alfresco:acs-community-packaging:7.0.0')
+    baseAlfrescoWar 'org.alfresco:content-services-community@war'
+
+    alfrescoAmp "eu.xenit.alfred.telemetry:alfred-telemetry-platform:0.6.0@amp"
     alfrescoSM "io.micrometer:micrometer-registry-prometheus:1.0.6"
 
-    alfrescoAmp "eu.xenit.alfresco:alfresco-health-processor-platform:0.3.0@amp"
+    alfrescoAmp "eu.xenit.alfresco:alfresco-health-processor-platform:0.4.0@amp"
     alfrescoSM 'org.orderofthebee.support-tools:support-tools-repo:1.1.0.0'
 }
 
@@ -31,6 +33,6 @@ dockerCompose {
 }
 
 dockerAlfresco {
-    baseImage = 'docker.io/xenit/alfresco-repository-community:6.2.0-ga'
+    baseImage = 'docker.io/xenit/alfresco-repository-community:7.0.0'
     leanImage = true
 }
