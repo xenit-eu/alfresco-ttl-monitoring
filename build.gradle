@@ -30,6 +30,12 @@ dockerCompose {
             "$dockerComposeWorkingDirectory/docker-compose-solr.yml",
             "$dockerComposeWorkingDirectory/docker-compose-monitoring.yml"
     ];
+    sharded {
+       useComposeFiles = [
+	     "$dockerComposeWorkingDirectory/docker-compose-sharded.yml",
+             "$dockerComposeWorkingDirectory/docker-compose-monitoring-sharded.yml"
+    ];
+    }
 }
 
 dockerAlfresco {

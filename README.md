@@ -15,6 +15,16 @@ Assuming Docker is correctly setup on your environment, the stack can be started
 ./gradlew composeUp
 ```
 
+### Sharded setup
+
+An example of a sharded setup is provided. Can be started with:
+
+```groovy
+./gradlew shardedComposeUp
+```
+
+It needs access to Xenit's private docker registry, for Alfresco enterprise images.
+
 ## Environment
 
 ![ttl_infra_overview.png](assets/ttl_infra_overview.png)
